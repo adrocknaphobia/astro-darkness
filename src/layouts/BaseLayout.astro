@@ -6,13 +6,22 @@ import ThreeBackground from '../components/ThreeBackground.astro';
 interface Props {
   title?: string;
   description?: string;
+  /** Absolute or site-relative path to a social share image. */
+  image?: string | undefined;
+  /** Open Graph type: 'website' for pages, 'article' for blog posts. */
+  ogType?: 'website' | 'article';
 }
 
 const base = import.meta.env.BASE_URL;
 const {
   title = 'Darkness - Dark Theme',
-  description = 'An intense motion-filled dark theme Astro site'
+  description = 'An intense motion-filled dark theme Astro site',
+  image,
+  ogType = 'website'
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = image ? new URL(image, Astro.site) : undefined;
 ---
 
 <!doctype html>
@@ -20,9 +29,23 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    {socialImageURL && <meta property="og:image" content={socialImageURL} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content={socialImageURL ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImageURL && <meta name="twitter:image" content={socialImageURL} />}
     <!-- Google Fonts: Space Grotesk + DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dtw-guild.webflow.io/sitemap-index.xml

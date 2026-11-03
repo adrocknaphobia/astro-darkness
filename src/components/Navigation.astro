@@ -125,11 +125,16 @@ const relativePath = currentPath.replace(base.slice(0, -1), '') || '/';
 
   .mobile-menu-btn {
     display: none;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     color: var(--color-text);
     cursor: pointer;
-    padding: 0.5rem;
+    /* 44x44 minimum tap target */
+    padding: 0.625rem;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .mobile-menu-btn .icon {
